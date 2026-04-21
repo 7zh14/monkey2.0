@@ -1,50 +1,279 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dynamic Movie Search</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEMA / HUB</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; text-align: center; background: #1a1a1a; color: white; }
-        input { padding: 10px; width: 250px; border: 1px solid #444; border-radius: 4px; background: #333; color: white; }
-        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
-        button:hover { background: #0056b3; }
-        .container { margin-top: 20px; }
-        iframe { background: #000; border: 1px solid #333; }
+        :root { --bg: #000; --panel: #0f0f0f; --border: #222; --accent: #fff; }
+        body { background: var(--bg); color: #fff; font-family: -apple-system, sans-serif; margin: 0; overflow-x: hidden; }
+
+        /* Sidebar - No transparency */
+        #sidebar { position: fixed; left: -300px; top: 0; width: 300px; height: 100%; background: var(--panel); border-right: 1px solid var(--border); transition: 0.3s ease; z-index: 2500; padding: 20px; box-sizing: border-box; overflow-y: auto; }
+        #sidebar.open { left: 0; }
+        
+        .profile-box { display: flex; flex-direction: column; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+        #pfp-display { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid #333; cursor: pointer; margin-bottom: 12px; background: #111; }
+        #username-display { font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-size: 0.75rem; cursor: pointer; }
+
+        .nav-label { color: #444; font-size: 0.6rem; letter-spacing: 2px; margin: 25px 0 10px 0; text-transform: uppercase; }
+        .nav-item { padding: 12px 15px; cursor: pointer; color: #888; font-size: 0.8rem; text-transform: uppercase; transition: 0.2s; border-radius: 20px; margin-bottom: 5px; }
+        .nav-item.active { color: #fff; background: rgba(255,255,255,0.1); }
+        
+        .bubble-select { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 10px 15px; border-radius: 30px; width: 100%; appearance: none; outline: none; cursor: pointer; font-size: 0.8rem; margin-bottom: 12px; }
+        .menu-btn { position: fixed; top: 20px; left: 20px; z-index: 1100; cursor: pointer; background: #111; border: 1px solid #222; color: #fff; width: 40px; height: 40px; border-radius: 50%; }
+
+        /* Main Grid */
+        main { padding: 20px; display: flex; flex-direction: column; align-items: center; width: 100%; box-sizing: border-box; }
+        .search-container { width: 90%; max-width: 500px; display: flex; background: #111; border: 1px solid var(--border); border-radius: 50px; padding: 5px 20px; margin: 60px 0 20px 0; }
+        input { flex: 1; padding: 15px; background: transparent; border: none; color: #fff; outline: none; font-size: 1rem; }
+        #iconGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 20px; width: 95%; max-width: 1400px; }
+        .movie-card { cursor: pointer; }
+        .movie-icon { width: 100%; aspect-ratio: 2/3; border-radius: 12px; border: 1px solid var(--border); object-fit: cover; }
+
+        /* Detail Modal */
+        #detailModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 3000; display: none; overflow-y: auto; justify-content: center; backdrop-filter: blur(20px); }
+        .modal-inner { width: 100%; max-width: 1000px; padding: 80px 20px; position: relative; }
+        .detail-header { display: flex; gap: 40px; align-items: flex-start; }
+        .detail-poster { width: 280px; border-radius: 16px; border: 1px solid #333; }
+        .rating-badge { display: inline-block; padding: 3px 10px; border-radius: 6px; font-weight: 800; font-size: 0.7rem; border: 1px solid; margin-right: 10px; text-transform: uppercase; }
+        .selector-chip { padding: 10px 20px; background: #111; border: 1px solid #333; border-radius: 30px; font-size: 0.7rem; cursor: pointer; color: #fff; margin: 5px; display: inline-block; }
+        .selector-chip.active { background: #fff; color: #000; }
+
+        /* Player */
+        #playerWrapper { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 4000; align-items: center; justify-content: center; }
+        .player-box { width: 80%; max-width: 900px; aspect-ratio: 16/9; background: #000; border: 1px solid #333; position: relative; border-radius: 12px; overflow: hidden; }
+        #moviePlayer { width: 100%; height: 100%; border: none; }
+        .player-bar { position: absolute; top: 10px; right: 10px; display: flex; gap: 8px; z-index: 4100; }
+        .p-btn { background: rgba(20,20,20,0.8); border: 1px solid #333; color: #fff; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; }
     </style>
 </head>
-<body>
+<body onload="initApp()">
 
-    <h2>Enter Movie ID</h2>
-    <input type="text" id="movieIdInput" placeholder="Enter ID (e.g., 1078605)">
-    <button onclick="updateIframe()">Load Movie</button>
+    <button class="menu-btn" id="menuToggle" onclick="toggleSidebar(event)">☰</button>
 
-    <div class="container">
-        <iframe 
-            id="moviePlayer"
-            src="about:blank" 
-            width="100%" 
-            height="600" 
-            frameborder="0" 
-            allowfullscreen>
-        </iframe>
+    <div id="sidebar">
+        <div class="nav-label">Profile <span onclick="toggleSidebar(event)" style="float:right; cursor:pointer;">✕</span></div>
+        <div class="profile-box">
+            <input type="file" id="pfp-input" style="display:none" onchange="updatePFP(event)">
+            <img id="pfp-display" src="https://via.placeholder.com/80" onclick="document.getElementById('pfp-input').click()">
+            <span id="username-display" onclick="changeName()">GUEST</span>
+        </div>
+        <div class="nav-label">Mode</div>
+        <div id="modeMovie" class="nav-item active" onclick="setMode('movie')">🎬 Movies</div>
+        <div id="modeTv" class="nav-item" onclick="setMode('tv')">📺 TV Shows</div>
+        <div class="nav-label">Library</div>
+        <div id="navHistory" class="nav-item" onclick="showHistory()">🕒 History</div>
+        <div class="nav-label">Filter</div>
+        <select id="genreSelect" class="bubble-select" onchange="loadPopular()"></select>
+        <select id="ageSelect" class="bubble-select" onchange="loadPopular()"></select>
+    </div>
+
+    <main>
+        <div class="search-container">
+            <input type="text" id="movieSearch" placeholder="SEARCH..." onkeydown="if(event.key==='Enter') loadPopular()">
+        </div>
+        <div id="mainTitle" style="width:95%; max-width:1400px; font-size:0.7rem; color:#444; letter-spacing:2px; text-transform:uppercase; margin-bottom:15px;">Trending</div>
+        <div id="iconGrid"></div>
+    </main>
+
+    <div id="detailModal">
+        <div class="modal-inner">
+            <span style="position:fixed; top:20px; right:30px; font-size:2.5rem; cursor:pointer; color:#444;" onclick="closeDetail()">×</span>
+            <div id="detailContent"></div>
+            <div id="tvBrowser" style="display:none; margin-top:30px;">
+                <div class="nav-label">Seasons</div>
+                <div id="seasonChips"></div>
+                <div class="nav-label">Episodes</div>
+                <div id="episodeChips"></div>
+            </div>
+            <div class="nav-label" style="margin-top:40px">Recommendations</div>
+            <div id="recommendGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap:15px; margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <div id="playerWrapper">
+        <div class="player-box" id="playerBox">
+            <div class="player-bar">
+                <select id="serverSelect" class="p-btn" onchange="playSource()" style="background:#111">
+                    <option value="vidking">VidKing</option>
+                    <option value="vidsrc">Vidsrc.to</option>
+                    <option value="2embed">2Embed</option>
+                </select>
+                <button class="p-btn" onclick="toggleFullScreen()">Full</button>
+                <button class="p-btn" onclick="closePlayer()">✕</button>
+            </div>
+            <iframe id="moviePlayer" src="about:blank" allowfullscreen></iframe>
+        </div>
     </div>
 
     <script>
-        function updateIframe() {
-            // 1. Get the value the user typed in the search box
-            const movieId = document.getElementById('movieIdInput').value;
-            
-            // 2. Target the iframe by its ID "moviePlayer"
-            const iframe = document.getElementById('moviePlayer');
-            
-            // 3. THE NEW CODE: This builds the URL using the ID you provided
-            if (movieId.trim() !== "") {
-                // It combines the link + the ID from the box
-                iframe.src = "https://www.vidking.net/embed/movie/" + movieId;
-            } else {
-                alert("Please enter a valid ID!");
-            }
-        }
-    </script>
+        const API_KEY = '101487134c9a495ef120eaedd38db14e';
+        let currentMode = 'movie', activeId = null, currentS = 1, currentE = 1;
+        let userData = { pfp: '', name: 'GUEST', history: [] };
 
+        function initApp() {
+            const saved = localStorage.getItem('cinemaHubData');
+            if(saved) userData = JSON.parse(saved);
+            if(userData.pfp) document.getElementById('pfp-display').src = userData.pfp;
+            document.getElementById('username-display').innerText = userData.name;
+            updateAgeMenu(); updateGenreList(); loadPopular();
+
+            // Click outside sidebar to close
+            document.addEventListener('click', (e) => {
+                const sidebar = document.getElementById('sidebar');
+                const menuBtn = document.getElementById('menuToggle');
+                if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== menuBtn) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        }
+
+        function updateAgeMenu() {
+            const age = document.getElementById('ageSelect');
+            age.innerHTML = currentMode === 'movie' 
+                ? '<option value="">Movie Ratings</option><option value="G">G</option><option value="PG">PG</option><option value="PG-13">PG-13</option><option value="R">R</option>'
+                : '<option value="">TV Ratings</option><option value="TV-G">TV-G</option><option value="TV-PG">TV-PG</option><option value="TV-14">TV-14</option><option value="TV-MA">TV-MA</option>';
+        }
+
+        async function loadPopular() {
+            const q = document.getElementById('movieSearch').value, g = document.getElementById('genreSelect').value, a = document.getElementById('ageSelect').value;
+            let url = q ? `https://api.themoviedb.org/3/search/${currentMode}?api_key=${API_KEY}&query=${q}`
+                        : `https://api.themoviedb.org/3/discover/${currentMode}?api_key=${API_KEY}&sort_by=popularity.desc`;
+            if(!q && g) url += `&with_genres=${g}`;
+            if(!q && a) url += `&certification_country=US&certification=${a}`;
+            const res = await fetch(url), data = await res.json(), grid = document.getElementById('iconGrid'); grid.innerHTML = "";
+            data.results.forEach(item => {
+                if(!item.poster_path) return;
+                const div = document.createElement('div'); div.className = 'movie-card'; div.onclick = () => openDetail(item.id, currentMode);
+                div.innerHTML = `<img class="movie-icon" src="https://image.tmdb.org/t/p/w500${item.poster_path}">`; grid.appendChild(div);
+            });
+        }
+
+        async function openDetail(id, mode) {
+            activeId = id;
+            currentMode = mode; // Ensure mode is correct even from history
+            const res = await fetch(`https://api.themoviedb.org/3/${currentMode}/${id}?api_key=${API_KEY}&append_to_response=release_dates,content_ratings,recommendations`);
+            const data = await res.json();
+            
+            const rec = userData.history.find(h => h.id === id); 
+            currentS = rec?.lastS || 1; 
+            currentE = rec?.lastE || 1;
+
+            let cert = "NR";
+            const release = currentMode === 'movie' ? data.release_dates.results.find(i => i.iso_3166_1 === "US") : data.content_ratings.results.find(i => i.iso_3166_1 === "US");
+            cert = release ? (currentMode === 'movie' ? release.release_dates[0].certification : release.rating) : "NR";
+
+            const btnText = currentMode === 'tv' ? `PLAY S${currentS} E${currentE}` : 'PLAY MOVIE';
+
+            document.getElementById('detailContent').innerHTML = `
+                <div class="detail-header">
+                    <img src="https://image.tmdb.org/t/p/w500${data.poster_path}" class="detail-poster">
+                    <div class="detail-info">
+                        <h1 style="font-size:3rem; margin:0;">${data.title || data.name}</h1>
+                        <div style="margin:15px 0;"><span class="rating-badge">${cert}</span> ⭐ ${data.vote_average.toFixed(1)}</div>
+                        <p style="color:#888;">${data.overview}</p>
+                        <button id="mainPlayBtn" onclick="startStream(${currentS},${currentE})" style="background:#fff; color:#000; border:none; padding:15px 45px; border-radius:30px; font-weight:900; cursor:pointer;">${btnText}</button>
+                    </div>
+                </div>`;
+
+            if(currentMode === 'tv') {
+                document.getElementById('tvBrowser').style.display = 'block';
+                loadSeasons(data.seasons);
+            } else { document.getElementById('tvBrowser').style.display = 'none'; }
+
+            const recGrid = document.getElementById('recommendGrid'); recGrid.innerHTML = "";
+            data.recommendations.results.slice(0, 6).forEach(s => {
+                recGrid.innerHTML += `<img src="https://image.tmdb.org/t/p/w200${s.poster_path}" style="width:100%; border-radius:12px; cursor:pointer;" onclick="openDetail(${s.id}, '${currentMode}')">`;
+            });
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        function loadSeasons(seasons) {
+            const container = document.getElementById('seasonChips'); container.innerHTML = "";
+            seasons.filter(s => s.season_number > 0).forEach(s => {
+                const btn = document.createElement('div'); btn.className = 'selector-chip' + (s.season_number === currentS ? ' active' : '');
+                btn.innerText = `Season ${s.season_number}`;
+                btn.onclick = () => {
+                    document.querySelectorAll('#seasonChips .selector-chip').forEach(c => c.classList.remove('active'));
+                    btn.classList.add('active');
+                    loadEpisodes(s.season_number);
+                };
+                container.appendChild(btn);
+            });
+            loadEpisodes(currentS);
+        }
+
+        async function loadEpisodes(sNum) {
+            const res = await fetch(`https://api.themoviedb.org/3/tv/${activeId}/season/${sNum}?api_key=${API_KEY}`);
+            const data = await res.json();
+            const container = document.getElementById('episodeChips'); container.innerHTML = "";
+            data.episodes.forEach(e => {
+                const btn = document.createElement('div'); btn.className = 'selector-chip' + (e.episode_number === currentE ? ' active' : '');
+                btn.innerText = `E${e.episode_number}`;
+                btn.onclick = () => {
+                    currentS = sNum; currentE = e.episode_number;
+                    document.getElementById('mainPlayBtn').innerText = `PLAY S${currentS} E${currentE}`;
+                    startStream(currentS, currentE);
+                };
+                container.appendChild(btn);
+            });
+        }
+
+        function startStream(s, e) {
+            currentS = s; currentE = e;
+            const title = document.querySelector('h1').innerText;
+            const poster = document.querySelector('.detail-poster').getAttribute('src').split('w500')[1];
+            
+            userData.history = userData.history.filter(h => h.id !== activeId);
+            userData.history.unshift({id: activeId, lastS: s, lastE: e, title: title, poster_path: poster, mode: currentMode});
+            localStorage.setItem('cinemaHubData', JSON.stringify(userData));
+
+            closeDetail();
+            document.getElementById('playerWrapper').style.display = 'flex';
+            playSource();
+        }
+
+        function playSource() {
+            const srv = document.getElementById('serverSelect').value;
+            let url = "";
+            if(srv === 'vidking') url = currentMode === 'movie' ? `https://www.vidking.net/embed/movie/${activeId}` : `https://www.vidking.net/embed/tv/${activeId}/${currentS}/${currentE}`;
+            if(srv === 'vidsrc') url = currentMode === 'movie' ? `https://vidsrc.to/embed/movie/${activeId}` : `https://vidsrc.to/embed/tv/${activeId}/${currentS}/${currentE}`;
+            if(srv === '2embed') url = currentMode === 'movie' ? `https://www.2embed.cc/embed/${activeId}` : `https://www.2embed.cc/embedtv/${activeId}&s=${currentS}&e=${currentE}`;
+            document.getElementById('moviePlayer').src = url;
+        }
+
+        function toggleFullScreen() {
+            const el = document.getElementById('playerBox');
+            if (!document.fullscreenElement) el.requestFullscreen();
+            else document.exitFullscreen();
+        }
+
+        function setMode(m) { 
+            currentMode = m; 
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(m === 'movie' ? 'modeMovie' : 'modeTv').classList.add('active');
+            updateAgeMenu(); updateGenreList(); loadPopular(); toggleSidebar();
+        }
+
+        function showHistory() {
+            toggleSidebar();
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('navHistory').classList.add('active');
+            const grid = document.getElementById('iconGrid'); grid.innerHTML = "";
+            userData.history.forEach(item => {
+                const div = document.createElement('div'); div.className = 'movie-card'; div.onclick = () => openDetail(item.id, item.mode);
+                div.innerHTML = `<img class="movie-icon" src="https://image.tmdb.org/t/p/w500${item.poster_path}">`;
+                grid.appendChild(div);
+            });
+        }
+
+        function toggleSidebar(e) { if(e) e.stopPropagation(); document.getElementById('sidebar').classList.toggle('open'); }
+        function closeDetail() { document.getElementById('detailModal').style.display = 'none'; }
+        function closePlayer() { document.getElementById('playerWrapper').style.display = 'none'; document.getElementById('moviePlayer').src = 'about:blank'; }
+        async function updateGenreList() { const res = await fetch(`https://api.themoviedb.org/3/genre/${currentMode}/list?api_key=${API_KEY}`), data = await res.json(), g = document.getElementById('genreSelect'); g.innerHTML = '<option value="">All Genres</option>'; data.genres.forEach(genre => { g.innerHTML += `<option value="${genre.id}">${genre.name}</option>`; }); }
+        function changeName() { const n = prompt("Name:"); if(n){ userData.name = n; document.getElementById('username-display').innerText = n; localStorage.setItem('cinemaHubData', JSON.stringify(userData)); } }
+        function updatePFP(e) { const r = new FileReader(); r.onload = () => { userData.pfp = r.result; document.getElementById('pfp-display').src = r.result; localStorage.setItem('cinemaHubData', JSON.stringify(userData)); }; r.readAsDataURL(e.target.files[0]); }
+    </script>
 </body>
 </html>

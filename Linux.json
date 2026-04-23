@@ -33,17 +33,6 @@
     "docs": "https://nobaraproject.org/category/documentation/"
   },
   {
-    "name": "MX Linux",
-    "use_case": ["Daily Driver","Performance"],
-    "base": "Debian (Stable)",
-    "performance": 92,
-    "security": 85,
-    "desc": "A midweight, desktop-oriented Linux distribution based on Debian Stable 13 trixie that emphasizes stability, performance, and ease of use.",
-    "banner": "https://distrowatch.com/images/yvzhuwbpy/mx.png",
-    "dl": "https://mxlinux.org/download-links/",
-    "docs": "https://mxlinux.org/manuals"
-  },
-  {
     "name": "CachyOS",
     "use_case": ["Performance","Gaming"],
     "base": "Arch",

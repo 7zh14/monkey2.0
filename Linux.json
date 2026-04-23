@@ -28,7 +28,7 @@
     "performance": 100,
     "security": 75,
     "desc": "Created by 'GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
-    "banner": "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fnobaraproject.org%2Fimg%2Fscreenshots%2FKDE.png&sp=1776975434T22afb4c7fdd7b986754f3fcc676a7a8a95857a65dcd176e93102f876c618c1d7",
+    "banner": "https://nobaraproject.org/img/nobara-icon.png",
     "dl": "https://nobaraproject.org/download-nobara/",
     "docs": "https://nobaraproject.org/category/documentation/"
   },

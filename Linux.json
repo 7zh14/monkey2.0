@@ -31,6 +31,17 @@
     "banner": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
     "dl": "https://nobaraproject.org/download-nobara/",
     "docs": "https://nobaraproject.org/category/documentation/"
+  },
+  {
+    "name": "Nobara Project",
+    "use_case": "Gaming",
+    "base": "Fedora",
+    "performance": 100,
+    "security": 75,
+    "desc": "Created by 'GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
+    "banner": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
+    "dl": "https://nobaraproject.org/download-nobara/",
+    "docs": "https://nobaraproject.org/category/documentation/"
   }
 ]
 

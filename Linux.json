@@ -6,7 +6,7 @@
     "performance": 85,
     "security": 70,
     "desc": "The gold standard for people switching from Windows. It's stable, familiar, and works out of the box.",
-    "banner": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800",
+    "banner": "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Flinuxnetmag.com%2Fwp-content%2Fuploads%2F2020%2F05%2Flinux-mint-cinnamon-1536x960.png&sp=1776975144Ta280d4aa61591e9bd631515c75d282ccd5260b985a6df029401968db3c95e95f",
     "dl": "https://linuxmint.com/download.php",
     "docs": "https://linuxmint.com/documentation.php"
   },
@@ -28,7 +28,7 @@
     "performance": 100,
     "security": 75,
     "desc": "Created by 'GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
-    "banner": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
+    "banner": "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fnobaraproject.org%2Fimg%2Fscreenshots%2FKDE.png&sp=1776975434T22afb4c7fdd7b986754f3fcc676a7a8a95857a65dcd176e93102f876c618c1d7",
     "dl": "https://nobaraproject.org/download-nobara/",
     "docs": "https://nobaraproject.org/category/documentation/"
   },
@@ -39,7 +39,7 @@
     "performance": 98,
     "security": 75,
     "desc": "The fastest Arch-based distribution",
-    "banner": "https://distrowatch.com/images/ronhtkak/cachyos-small.png",
+    "banner": "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Flinuxiac.b-cdn.net%2Fwp-content%2Fuploads%2F2022%2F11%2Fcachyos.jpg&sp=1776975519T2632a6279e631b8686e25ac00e968d96cc9747431485da6b32b7cc5353646122",
     "dl": "https://cachyos.org/download/",
     "docs": "https://wiki.cachyos.org/"
   }

@@ -11,6 +11,17 @@
     "docs": "https://linuxmint.com/documentation.php"
   },
   {
+      "name": "CachyOS",
+    "use_case": ["Performance","Gaming"],
+    "base": "Arch",
+    "performance": 99,
+    "security": 75,
+    "desc": "The pinnacle of Linux speed. CachyOS is an Arch-based distro optimized for modern CPUs using x86-64-v3 and v4",
+    "banner": "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Flinuxiac.b-cdn.net%2Fwp-content%2Fuploads%2F2022%2F11%2Fcachyos.jpg&sp=1776983690T2d620e88e6f200c68fff44ebd530e840d9720a87f8189f2cc157296b0daa49e9",
+    "dl": "https://cachyos.org/download/",
+    "docs": "https://wiki.cachyos.org/"
+  },
+  {
     "name": "Kali Linux",
     "use_case": "Security",
     "base": "Debian",

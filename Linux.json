@@ -33,12 +33,23 @@
     "docs": "https://nobaraproject.org/category/documentation/"
   },
   {
+    "name": "MX Linux",
+    "use_case": ["Daily Driver","Performance"],
+    "base": "Debian (Stable)",
+    "performance": 92,
+    "security": 85,
+    "desc": "A midweight, desktop-oriented Linux distribution based on Debian Stable 13 "trixie" that emphasizes stability, performance, and ease of use.",
+    "banner": "https://distrowatch.com/images/yvzhuwbpy/mx.png",
+    "dl": "https://mxlinux.org/download-links/",
+    "docs": "https://mxlinux.org/manuals"
+  },
+  {
     "name": "CachyOS",
     "use_case": ["Performance","Gaming"],
     "base": "Arch",
     "performance": 98,
     "security": 75,
-    "desc": "The fastest Arch-based distribution",
+    "desc": "A performance-optimized Arch Linux distribution with CPU-specific package builds, advanced kernel scheduling, and an effortless installation",
     "banner": "https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Flinuxiac.b-cdn.net%2Fwp-content%2Fuploads%2F2022%2F11%2Fcachyos.jpg&sp=1776975519T2632a6279e631b8686e25ac00e968d96cc9747431485da6b32b7cc5353646122",
     "dl": "https://cachyos.org/download/",
     "docs": "https://wiki.cachyos.org/"

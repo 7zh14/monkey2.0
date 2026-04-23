@@ -33,15 +33,15 @@
     "docs": "https://nobaraproject.org/category/documentation/"
   },
   {
-    "name": "Nobara Project",
-    "use_case": "Gaming",
-    "base": "Fedora",
-    "performance": 100,
+    "name": "CachyOS",
+    "use_case": ["Performance","Gaming"],
+    "base": "Arch",
+    "performance": 98,
     "security": 75,
-    "desc": "Created by 'GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
-    "banner": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
-    "dl": "https://nobaraproject.org/download-nobara/",
-    "docs": "https://nobaraproject.org/category/documentation/"
+    "desc": "The fastest Arch-based distribution",
+    "banner": "https://cachyos.org/img/cachyos-banner.png",
+    "dl": "https://cachyos.org/download/",
+    "docs": "https://wiki.cachyos.org/"
   }
 ]
 

@@ -5,7 +5,7 @@
     "base": "Ubuntu",
     "performance": 85,
     "security": 70,
-    "desc": "The gold standard for people switching from Windows. It's stable, familiar, and works out of the box.",
+    "desc": "The gold standard for people switching from Windows. It"s stable, familiar, and works out of the box.",
     "banner": "https://avatars.githubusercontent.com/u/107184?s=200&v=4",
     "dl": "https://linuxmint.com/download.php",
     "docs": "https://linuxmint.com/documentation.php"
@@ -27,7 +27,7 @@
     "base": "Fedora",
     "performance": 100,
     "security": 75,
-    "desc": "Created by 'GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
+    "desc": "Created by "GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
     "banner": "https://nobaraproject.org/img/nobara-icon.png",
     "dl": "https://nobaraproject.org/download-nobara/",
     "docs": "https://nobaraproject.org/category/documentation/"
@@ -38,7 +38,7 @@
     "base": "Debian (Stable)",
     "performance": 92,
     "security": 85,
-    "desc": "A midweight, desktop-oriented Linux distribution based on Debian Stable 13 "trixie" that emphasizes stability, performance, and ease of use.",
+    "desc": "A midweight, desktop-oriented Linux distribution based on Debian Stable 13 trixie that emphasizes stability, performance, and ease of use.",
     "banner": "https://distrowatch.com/images/yvzhuwbpy/mx.png",
     "dl": "https://mxlinux.org/download-links/",
     "docs": "https://mxlinux.org/manuals"
@@ -55,4 +55,3 @@
     "docs": "https://wiki.cachyos.org/"
   }
 ]
-

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "Linux Mint",
+    "use_case": "Daily Driver",
+    "base": "Ubuntu",
+    "performance": 85,
+    "security": 70,
+    "desc": "The gold standard for people switching from Windows. It's stable, familiar, and works out of the box.",
+    "banner": "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=800",
+    "dl": "https://linuxmint.com/download.php",
+    "docs": "https://linuxmint.com/documentation.php"
+  },
+  {
+    "name": "Kali Linux",
+    "use_case": "Security",
+    "base": "Debian",
+    "performance": 60,
+    "security": 100,
+    "desc": "An advanced distribution for penetration testing and ethical hacking. Not recommended for beginners.",
+    "banner": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800",
+    "dl": "https://www.kali.org/get-kali/",
+    "docs": "https://www.kali.org/docs/"
+  },
+  {
+    "name": "Nobara Project",
+    "use_case": "Gaming",
+    "base": "Fedora",
+    "performance": 100,
+    "security": 75,
+    "desc": "Created by 'GloriousEggroll', this distro comes with Steam, Wine, and GPU drivers pre-configured for maximum FPS.",
+    "banner": "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800",
+    "dl": "https://nobaraproject.org/download-nobara/",
+    "docs": "https://nobaraproject.org/category/documentation/"
+  }
+]
+
